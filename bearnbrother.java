@@ -1,13 +1,20 @@
 import java.util.*;
+<<<<<<< HEAD
 
 public class Main {
+=======
+public class bearnbrother {
+>>>>>>> abd675b (update bearandbrother solution)
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        int m = sc.nextInt();
-        int n = sc.nextInt();
-
-        int result = (m * n) / 2;
-        System.out.println(result);
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int count=0;
+        while(a<=b){
+            a=a*3;
+            b=b*2;
+            count++;
+        }
+        System.out.println(count);
     }
 }
