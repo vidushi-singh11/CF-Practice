@@ -1,10 +1,5 @@
 import java.util.*;
-<<<<<<< HEAD
-
-public class Main {
-=======
 public class bearnbrother {
->>>>>>> abd675b (update bearandbrother solution)
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int a = sc.nextInt();
@@ -16,5 +11,7 @@ public class bearnbrother {
             count++;
         }
         System.out.println(count);
+    sc.close();
+
     }
 }
