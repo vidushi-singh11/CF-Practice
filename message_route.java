@@ -5,15 +5,46 @@ public class message_route {
     int n= sc.nextInt();
     int m = sc.nextInt();
     ArrayList<ArrayList<Integer>> adjList = new ArrayList<>();
-    for(int i = 0; i< n; i++){ 
+    for(int i = 0; i<=n; i++){ 
         adjList.add(new ArrayList<>());
     }
     for(int i=0;i<m;i++){
-        int u=sc.nextInt()-1;
-        int v =sc.nextInt()-1;
+        int u=sc.nextInt();
+        int v =sc.nextInt();
         adjList.get(u).add(v);
         adjList.get(v).add(u);
     }
-    System.out.println(adjList);
+    bfs(1, n, adjList);
    } 
+    static void bfs(int start, int n, ArrayList<ArrayList<Integer>> adjList) {
+     boolean[] visited = new boolean[n + 1];
+     int[] parent = new int[n + 1];
+     Arrays.fill(parent, -1);
+     Queue<Integer> queue = new LinkedList<>();
+     queue.add(start);
+     visited[start] = true;
+     while (!queue.isEmpty()) {
+          int node = queue.poll();
+          for (int neighbor : adjList.get(node)) {
+                if (!visited[neighbor]) {
+                 visited[neighbor] = true;
+                 parent[neighbor] = node;
+                 queue.add(neighbor);
+                }
+          }
+     }
+     if (!visited[n]) {
+          System.out.println("IMPOSSIBLE");
+          return;
+     }
+     List<Integer> path = new ArrayList<>();
+     for (int v = n; v != -1; v = parent[v]) {
+          path.add(v);
+     }
+     Collections.reverse(path);
+     System.out.println(path.size());
+     for (int node : path) {
+          System.out.print(node + " ");
+     }
+    }
 }
