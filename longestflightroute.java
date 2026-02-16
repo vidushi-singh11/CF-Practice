@@ -1,51 +1,85 @@
+import java.io.*;
 import java.util.*;
+
 public class longestflightroute {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n= sc.nextInt();
-        int m= sc.nextInt();
-        ArrayList<ArrayList<Integer>> adjList= new ArrayList<>();
-        int [] indegree = new int[n+1];
-        for(int i=0;i<=n;i++){
-            adjList.add(new ArrayList<>());
+    static class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+        FastReader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
         }
-        for(int i=0;i<m;i++){
-            int u= sc.nextInt();
-            int v= sc.nextInt();
-            adjList.get(u).add(v);
+        String next() throws IOException {
+            while (st == null || !st.hasMoreElements()) {
+                st = new StringTokenizer(br.readLine());
+            }
+            return st.nextToken();
+        }
+        int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        FastReader sc = new FastReader();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        int[] indegree = new int[n + 1];
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
             indegree[v]++;
         }
-        bfs (1, n, adjList);
-    }
-    static void bfs(int start, int n, ArrayList<ArrayList<Integer>> adjList) {
-    boolean[] visited = new boolean[n + 1];
-    int[] parent = new int[n + 1];
-    Arrays.fill(parent, -1);
-    Queue<Integer> q = new LinkedList<>();
-    q.add(start);
-     visited[start] = true;
-     while (!q.isEmpty()) {
-          int node = q.poll();
-          for (int neighbor : adjList.get(node)) {
-                if (!visited[neighbor]) {
-                 visited[neighbor] = true;
-                 parent[neighbor] = node;
-                 q.add(neighbor);
+        Queue<Integer> q = new ArrayDeque<>();
+        for (int i = 1; i <= n; i++) {
+            if (indegree[i] == 0)
+                q.add(i);
+        }
+        List<Integer> topo = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            topo.add(u);
+
+            for (int v : adj.get(u)) {
+                indegree[v]--;
+                if (indegree[v] == 0)
+                    q.add(v);
+            }
+        }
+
+        long[] dp = new long[n + 1];
+        Arrays.fill(dp, Long.MIN_VALUE);
+        int[] parent = new int[n + 1];
+        dp[1] = 1;
+        for (int u : topo) {
+            if (dp[u] == Long.MIN_VALUE)
+                continue;
+            for (int v : adj.get(u)) {
+                if (dp[u] + 1 > dp[v]) {
+                    dp[v] = dp[u] + 1;
+                    parent[v] = u;
                 }
-          }
+            }
+        }
+        if (dp[n] == Long.MIN_VALUE) {
+            System.out.println("IMPOSSIBLE");
+            return;
+        }
+        System.out.println(dp[n]);
+        List<Integer> path = new ArrayList<>();
+        int curr = n;
+        while (curr != 0) {
+            path.add(curr);
+            curr = parent[curr];
+        }
+        Collections.reverse(path);
+        StringBuilder sb = new StringBuilder();
+        for (int x : path) {
+         sb.append(x).append(" ");
      }
-     if (!visited[n]) {
-          System.out.println("IMPOSSIBLE");
-          return;
-     }
-     List<Integer> path = new ArrayList<>();
-     for (int v = n; v != -1; v = parent[v]) {
-          path.add(v);
-     }
-     Collections.reverse(path);
-     System.out.println(path.size());
-     for (int node : path) {
-          System.out.print(node + " ");
-     }
+        System.out.println(sb);
     }
 }
