@@ -51,31 +51,33 @@
 //         return false;
 //     }
 // }
+
+// GRAPH with weights
     
-import java.util.*;
-public class practice {
+// import java.util.*;
+// public class practice {
   
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();   
-        int m = sc.nextInt();
-        ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
-        for (int i = 0; i <n; i++) {
-            adj.add(new ArrayList<>());
-        }
-        for (int i = 0; i < m; i++) {
-            int u = sc.nextInt();
-            int v = sc.nextInt();
-            int w = sc.nextInt();
-            adj.get(u).add(new int[]{v, w});
-            adj.get(v).add(new int[]{u, w});
-        }
-        for (int i = 0; i <n; i++) {
-            System.out.print(i + ": ");
-            for (int[] edge : adj.get(i)) {
-                System.out.print("{" + edge[0] + ", " + edge[1] + "} ");
-            }
-            System.out.println();
-        }
-    }
-}
+//     public static void main(String[] args) {
+//         Scanner sc = new Scanner(System.in);
+//         int n = sc.nextInt();   
+//         int m = sc.nextInt();
+//         ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
+//         for (int i = 0; i <n; i++) {
+//             adj.add(new ArrayList<>());
+//         }
+//         for (int i = 0; i < m; i++) {
+//             int u = sc.nextInt();
+//             int v = sc.nextInt();
+//             int w = sc.nextInt();
+//             adj.get(u).add(new int[]{v, w});
+//             adj.get(v).add(new int[]{u, w});
+//         }
+//         for (int i = 0; i <n; i++) {
+//             System.out.print(i + ": ");
+//             for (int[] edge : adj.get(i)) {
+//                 System.out.print("{" + edge[0] + ", " + edge[1] + "} ");
+//             }
+//             System.out.println();
+//         }
+//     }
+// }
