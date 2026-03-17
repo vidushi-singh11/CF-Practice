@@ -1,63 +1,67 @@
 import java.util.*;
-
-public class treedistance1 {
-
-    static ArrayList<Integer>[] adj;
-    static int n;
-
-    static int bfs(int start, int[] dist) {
-        Queue<Integer> q = new LinkedList<>();
-
-        Arrays.fill(dist, -1);
-
-        q.add(start);
-        dist[start] = 0;
-
-        while (!q.isEmpty()) {
-            int node = q.poll();
-
-            for (int next : adj[node]) {
-                if (dist[next] == -1) {
-                    dist[next] = dist[node] + 1;
-                    q.add(next);
-                }
+public class Main {
+    public static class DSU {
+        int[] parent, size;
+        DSU(int n) {
+            parent = new int[n + 1];
+            size = new int[n + 1];
+            for (int i = 1; i <= n; i++) {
+                parent[i] = i;
+                size[i] = 1;
             }
         }
-
-        int far = start;
-        for (int i = 1; i <= n; i++) {
-            if (dist[i] > dist[far]) {
-                far = i;
-            }
+        int find(int x) {
+            if (parent[x] == x)
+                return x;
+            return parent[x] = find(parent[x]);
         }
 
-        return far;
+        void union(int a, int b) {
+            a = find(a);
+            b = find(b);
+
+            if (a == b) return;
+
+            if (size[a] < size[b]) {
+                parent[a] = b;
+                size[b] += size[a];
+            } else {
+                parent[b] = a;
+                size[a] += size[b];
+            }
+        }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
 
-        n = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
 
-        adj = new ArrayList[n + 1];
-        for (int i = 1; i <= n; i++) {
-            adj[i] = new ArrayList<>();
-        }
+            DSU dsu = new DSU(n);
 
-        for (int i = 0; i < n - 1; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
+            for (int i = 0; i < m; i++) {
+                int a = sc.nextInt();
+                int d = sc.nextInt();
+                int k = sc.nextInt();
 
-            adj[a].add(b);
-            adj[b].add(a);
-        }
-        int[] distA = new int[n + 1];
-        int[] distB = new int[n + 1];
-        int A = bfs(1, distA);
-        int B = bfs(A, distA);
-        bfs(B, distB);
-        for (int i = 1; i <= n; i++) {
-            System.out.print(Math.max(distA[i], distB[i]) + " ");
+                int prev = a;
+
+                for (int j = 1; j <= k; j++) {
+                    int curr = a + j * d;
+                    dsu.union(prev, curr);
+                    prev = curr;
+                }
+            }
+            int count = 0;
+            for (int i = 1; i <= n; i++) {
+                if (dsu.find(i) == i)
+                    count++;
+            }
+
+            System.out.println(count);
         }
     }
 }
