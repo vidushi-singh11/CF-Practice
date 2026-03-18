@@ -12,10 +12,10 @@ public class rangeminimum {
         } else {
             int mid = (start + end) / 2;
 
-            build(arr, 2 * node, start, mid);
-            build(arr, 2 * node + 1, mid + 1, end);
+            build(arr, 2 * node+1, start, mid);
+            build(arr, 2 * node + 2, mid + 1, end);
 
-            tree[node] = Math.min(tree[2 * node], tree[2 * node + 1]);
+            tree[node] = Math.min(tree[2 * node+1], tree[2 * node + 2]);
         }
     }
 
@@ -26,8 +26,8 @@ public class rangeminimum {
 
         int mid = (start + end) / 2;
 
-        int left = query(2 * node, start, mid, l, r);
-        int right = query(2 * node + 1, mid + 1, end, l, r);
+        int left = query(2 * node+1, start, mid, l, r);
+        int right = query(2 * node + 2, mid + 1, end, l, r);
 
         return Math.min(left, right);
     }
@@ -49,7 +49,7 @@ public class rangeminimum {
         }
 
         tree = new int[4 * n];
-        build(arr, 1, 0, n - 1);
+        build(arr, 0, 0, n - 1);
 
         StringBuilder sb = new StringBuilder();
 
@@ -58,7 +58,7 @@ public class rangeminimum {
             int l = Integer.parseInt(st.nextToken()) - 1;
             int r = Integer.parseInt(st.nextToken()) - 1;
 
-            sb.append(query(1, 0, n - 1, l, r)).append("\n");
+            sb.append(query(0, 0, n - 1, l, r)).append("\n");
         }
 
         System.out.print(sb);
