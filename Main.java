@@ -2,14 +2,18 @@ import java.util.*;
 
 public class Main {
     static List<Integer>[] adj;
-    static int ans = 0;
+    static int[] dp;
 
-    static void dfs(int u, int length) {
-        ans = Math.max(ans, length);
+    static int dfs(int u) {
+        if (dp[u] != -1) return dp[u];
+
+        int maxLen = 0;
 
         for (int v : adj[u]) {
-            dfs(v, length + 1);
+            maxLen = Math.max(maxLen, 1 + dfs(v));
         }
+
+        return dp[u] = maxLen;
     }
 
     public static void main(String[] args) {
@@ -26,8 +30,14 @@ public class Main {
             int y = sc.nextInt();
             adj[x].add(y);
         }
+
+        dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+
+        int ans = 0;
+
         for (int i = 1; i <= n; i++) {
-            dfs(i, 0);
+            ans = Math.max(ans, dfs(i));
         }
 
         System.out.println(ans);
